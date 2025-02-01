@@ -1,5 +1,5 @@
 resource "aws_iam_role" "eks_cluster_role" {
-  name = "noteit-${var.environment}-eks-cluster-role"
+  name = "${var.environment}-eks-cluster-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -15,12 +15,12 @@ resource "aws_iam_role" "eks_cluster_role" {
   })
 
   tags = {
-    Name = "noteit-${var.environment}-eks-cluster-role"
+    Name = "${var.environment}-eks-cluster-role"
   }
 }
 
 resource "aws_eks_cluster" "eks_cluster" {
-  name     = "noteit-${var.environment}-eks-cluster"
+  name     = "${var.environment}-eks-cluster"
   role_arn = aws_iam_role.eks_cluster_role.arn
   version  = var.eks_version
 
@@ -29,7 +29,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   }
 
   tags = {
-    Name = "noteit-${var.environment}-eks-cluster"
+    Name = "${var.environment}-eks-cluster"
   }
 }
 
@@ -39,7 +39,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
 }
 
 resource "aws_iam_role" "eks_node_group_role" {
-  name = "noteit-${var.environment}-eks-node-group-role"
+  name = "${var.environment}-eks-node-group-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -55,7 +55,7 @@ resource "aws_iam_role" "eks_node_group_role" {
   })
 
   tags = {
-    Name = "noteit-${var.environment}-eks-node-group-role"
+    Name = "${var.environment}-eks-node-group-role"
   }
 }
 
@@ -77,7 +77,7 @@ resource "aws_iam_role_policy_attachment" "ecr_read_only" {
 
 resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "noteit-${var.environment}-eks-node-group"
+  node_group_name = "${var.environment}-eks-node-group"
   node_role_arn   = aws_iam_role.eks_node_group_role.arn
 
   scaling_config {
@@ -91,6 +91,6 @@ resource "aws_eks_node_group" "eks_node_group" {
   subnet_ids = var.subnet_ids
 
   tags = {
-    Name = "noteit-${var.environment}-eks-node-group"
+    Name = "${var.environment}-eks-node-group"
   }
 }
