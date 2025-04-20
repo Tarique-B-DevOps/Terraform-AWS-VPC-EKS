@@ -1,3 +1,3 @@
-workspaces { name = "aws-resources" }
+workspaces { name = "aws-staging" }
 hostname     = "app.terraform.io"
 organization = "tarique-b-devops"

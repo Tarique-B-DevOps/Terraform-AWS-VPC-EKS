@@ -3,7 +3,7 @@ region      = "ap-south-2"
 environment = "dev"
 tags = {
   "Environment" = "dev"
-  "App"         = "generic"
+  "App"         = "core"
 }
 
 # VPC Vars Values
