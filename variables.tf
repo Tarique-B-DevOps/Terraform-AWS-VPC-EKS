@@ -68,3 +68,11 @@ variable "eks_version" {
   description = "The EKS cluster's kubernetes version"
   type        = string
 }
+
+
+# Use existing subnet Ids when not creating a new VPC
+variable "subnet_ids" {
+  description = "values of subnet ids"
+  type = list(string)
+  
+}

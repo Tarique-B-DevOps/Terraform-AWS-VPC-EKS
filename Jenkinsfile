@@ -6,6 +6,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
         TF_TOKEN_app_terraform_io = credentials('terraform-cloud-token')
         TF_LOG = "${env.TF_LOG_LEVEL}"
+        TF_VAR_subnet_ids = "${env.AWS_APS2_SUBNET_IDS}"
         TF_BACKEND_FILES_DIR = "backend-configs"
     }
 
