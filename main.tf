@@ -14,6 +14,7 @@ module "eks" {
   subnet_ids                      = module.vpc.public_subnet_ids
   environment                     = var.environment
   eks_node_instance_type          = var.eks_node_instance_type
+  eks_node_arch_type              = var.eks_node_arch_type
   eks_node_group_desired_capacity = var.eks_node_group_desired_capacity
   eks_node_group_min_size         = var.eks_node_group_min_size
   eks_node_group_max_size         = var.eks_node_group_max_size

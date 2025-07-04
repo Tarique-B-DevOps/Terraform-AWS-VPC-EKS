@@ -13,6 +13,17 @@ variable "eks_node_instance_type" {
   type        = string
 }
 
+variable "eks_node_arch_type" {
+  description = "Architecture type: 'arm' for ARM64, 'amd' for x86_64"
+  type        = string
+  default     = "arm"
+
+  validation {
+    condition     = var.eks_node_arch_type == "arm" || var.eks_node_arch_type == "amd"
+    error_message = "eks_node_arch_type must be either 'arm' or 'amd'."
+  }
+}
+
 variable "eks_node_group_desired_capacity" {
   description = "The desired number of worker nodes in the EKS cluster"
   type        = number
