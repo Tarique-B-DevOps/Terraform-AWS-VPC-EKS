@@ -21,13 +21,13 @@ This repository provisions AWS infrastructure using Terraform with modular suppo
 2. Change into the project directory  
 
 3. Initialize Terraform with a backend config  
-   terraform init -backend-config=<backend-config-file>
+   terraform init -backend-config=`<path-to-backend-config-file>`
 
 4. Preview infrastructure changes  
-   terraform plan -var-file=<var-file>
+   terraform plan -var-file=`<path-to-var-file>`
 
 5. Apply the configuration  
-   terraform apply -var-file=<var-file>
+   terraform apply -var-file=`<path-to-var-file>`
 
 ---
 
@@ -51,3 +51,5 @@ This project includes a Jenkinsfile for pipeline automation with parameterized o
    - TF_VAR_FILE (e.g., amd.tfvars)
    - DESTROY_TERRAFORM (true/false)
 4. Run the pipeline to provision or destroy the infrastructure
+
+![Image](https://github.com/user-attachments/assets/cf9417f4-6a5c-4ee3-a043-a0806b914a73)
