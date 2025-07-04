@@ -32,3 +32,9 @@ output "eks_node_group_id" {
   description = "The ID of the EKS Node Group"
   value       = module.eks.eks_node_group_id
 }
+
+
+output "update_kubeconfig_cmd" {
+  description = "Command to update the local kubeconfig file for accessing the EKS cluster"
+  value       = "aws eks update-kubeconfig --region ${var.region} --name ${module.eks.eks_cluster_name}"
+}
