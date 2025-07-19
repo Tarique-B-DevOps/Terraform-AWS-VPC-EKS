@@ -7,15 +7,37 @@ tags = {
 }
 
 # VPC Vars Values
-vpc_cidr              = "10.0.0.0/16"
-public_subnet_a_cidr  = "10.0.1.0/24"
-public_subnet_b_cidr  = "10.0.2.0/24"
-private_subnet_a_cidr = "10.0.3.0/24"
-private_subnet_b_cidr = "10.0.4.0/24"
-availability_zones    = ["ap-south-2a", "ap-south-2b"]
+vpc_cidr = "10.0.0.0/16"
+
+public_subnets = {
+  "sub1" = {
+    cidr_block        = "10.0.1.0/24"
+    availability_zone = "ap-south-2a"
+
+  },
+  "sub2" = {
+    cidr_block        = "10.0.2.0/24"
+    availability_zone = "ap-south-2b"
+
+  }
+}
+
+private_subnets = {
+  "sub1" = {
+    cidr_block        = "10.0.3.0/24"
+    availability_zone = "ap-south-2a"
+  },
+  "sub2" = {
+    cidr_block        = "10.0.4.0/24"
+    availability_zone = "ap-south-2b"
+
+  }
+}
+
+provision_nat_gateway = false
 
 # EKS Vars Values
-eks_launch_type            = "ec2"
+eks_launch_type                 = "ec2"
 eks_node_instance_type          = "t3.medium"
 eks_node_arch_type              = "amd"
 eks_node_group_desired_capacity = 1

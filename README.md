@@ -29,7 +29,9 @@ AWS Fargate is a serverless compute engine for containers that lets you run Kube
 
 ### 1. Run a test pod
 
+```bash
 kubectl run nginx-pod --image=nginx --restart=Never
+```
 
 ### 2. Check if it’s running on Fargate
 

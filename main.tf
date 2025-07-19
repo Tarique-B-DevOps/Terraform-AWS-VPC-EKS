@@ -1,11 +1,9 @@
 module "vpc" {
   source                = "./modules/vpc"
   vpc_cidr              = var.vpc_cidr
-  public_subnet_a_cidr  = var.public_subnet_a_cidr
-  public_subnet_b_cidr  = var.public_subnet_b_cidr
-  private_subnet_a_cidr = var.private_subnet_a_cidr
-  private_subnet_b_cidr = var.private_subnet_b_cidr
-  availability_zones    = var.availability_zones
+  public_subnets        = var.public_subnets
+  private_subnets       = var.private_subnets
+  provision_nat_gateway = var.provision_nat_gateway
   environment           = var.environment
 }
 

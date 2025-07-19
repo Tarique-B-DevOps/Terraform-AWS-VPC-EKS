@@ -7,12 +7,29 @@ tags = {
 }
 
 # VPC Vars Values
-vpc_cidr              = "10.0.0.0/16"
-public_subnet_a_cidr  = "10.0.1.0/24"
-public_subnet_b_cidr  = "10.0.2.0/24"
-private_subnet_a_cidr = "10.0.3.0/24"
-private_subnet_b_cidr = "10.0.4.0/24"
-availability_zones    = ["ap-south-2a", "ap-south-2b"]
+vpc_cidr = "10.0.0.0/16"
+
+public_subnets = {
+  "nat-gw-pub1" = {
+    cidr_block        = "10.0.1.0/24"
+    availability_zone = "ap-south-2a"
+
+  }
+}
+
+private_subnets = {
+  "priv1" = {
+    cidr_block        = "10.0.2.0/24"
+    availability_zone = "ap-south-2a"
+  },
+  "priv2" = {
+    cidr_block        = "10.0.3.0/24"
+    availability_zone = "ap-south-2b"
+
+  }
+}
+
+provision_nat_gateway = false
 
 # EKS Vars Values
 eks_launch_type            = "fargate"
