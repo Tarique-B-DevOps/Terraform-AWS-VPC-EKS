@@ -11,7 +11,7 @@ module "vpc" {
 
 module "eks" {
   source                          = "./modules/eks"
-  subnet_ids                      = module.vpc.public_subnet_ids
+  subnet_ids                      = var.eks_launch_type == "fargate" ? module.vpc.private_subnet_ids : module.vpc.public_subnet_ids
   environment                     = var.environment
   eks_node_instance_type          = var.eks_node_instance_type
   eks_node_arch_type              = var.eks_node_arch_type
@@ -19,4 +19,6 @@ module "eks" {
   eks_node_group_min_size         = var.eks_node_group_min_size
   eks_node_group_max_size         = var.eks_node_group_max_size
   eks_version                     = var.eks_version
+  eks_launch_type                 = var.eks_launch_type
+  fargate_profile_namespaces      = var.fargate_profile_namespaces
 }

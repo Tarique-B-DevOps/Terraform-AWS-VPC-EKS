@@ -47,30 +47,46 @@ variable "environment" {
 variable "eks_node_instance_type" {
   description = "The EC2 instance type for the EKS worker nodes"
   type        = string
+  default     = ""
 }
 
 variable "eks_node_arch_type" {
   description = "Architecture type: 'arm' for ARM64, 'amd' for x86_64"
   type        = string
+  default     = ""
 
 }
 
 variable "eks_node_group_desired_capacity" {
   description = "The desired number of worker nodes in the EKS cluster"
   type        = number
+  default     = 0
 }
 
 variable "eks_node_group_min_size" {
   description = "The minimum number of worker nodes in the EKS cluster"
   type        = number
+  default     = 0
 }
 
 variable "eks_node_group_max_size" {
   description = "The maximum number of worker nodes in the EKS cluster"
   type        = number
+  default     = 0
 }
 
 variable "eks_version" {
   description = "The EKS cluster's kubernetes version"
   type        = string
+}
+
+variable "eks_launch_type" {
+  description = "Launch type for worker nodes: 'ec2' for EC2 Node Group, 'fargate' for EKS Fargate"
+  type        = string
+}
+
+variable "fargate_profile_namespaces" {
+  description = "List of Kubernetes namespaces to use for Fargate profile"
+  type        = list(string)
+  default = []
 }
