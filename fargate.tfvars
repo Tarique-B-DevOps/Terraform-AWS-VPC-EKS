@@ -29,7 +29,7 @@ private_subnets = {
   }
 }
 
-provision_nat_gateway = false
+provision_nat_gateway = true
 
 # EKS Vars Values
 eks_launch_type            = "fargate"
