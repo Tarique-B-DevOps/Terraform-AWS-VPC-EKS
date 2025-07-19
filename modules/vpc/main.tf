@@ -8,49 +8,33 @@ resource "aws_vpc" "private_network" {
   }
 }
 
-resource "aws_subnet" "public_subnet_a" {
+resource "aws_subnet" "public" {
+  for_each = var.public_subnets
+
   vpc_id                  = aws_vpc.private_network.id
-  cidr_block              = var.public_subnet_a_cidr
-  availability_zone       = var.availability_zones[0]
+  cidr_block              = each.value.cidr_block
+  availability_zone       = each.value.availability_zone
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.environment}-public-subnet-a"
+    Name = "${var.environment}-public-subnet-${each.key}"
   }
 }
 
-resource "aws_subnet" "public_subnet_b" {
-  vpc_id                  = aws_vpc.private_network.id
-  cidr_block              = var.public_subnet_b_cidr
-  availability_zone       = var.availability_zones[1]
-  map_public_ip_on_launch = true
+resource "aws_subnet" "private" {
+  for_each = var.private_subnets
 
-  tags = {
-    Name = "${var.environment}-public-subnet-b"
-  }
-}
-
-resource "aws_subnet" "private_subnet_a" {
   vpc_id            = aws_vpc.private_network.id
-  cidr_block        = var.private_subnet_a_cidr
-  availability_zone = var.availability_zones[0]
+  cidr_block        = each.value.cidr_block
+  availability_zone = each.value.availability_zone
 
   tags = {
-    Name = "${var.environment}-private-subnet-a"
-  }
-}
-
-resource "aws_subnet" "private_subnet_b" {
-  vpc_id            = aws_vpc.private_network.id
-  cidr_block        = var.private_subnet_b_cidr
-  availability_zone = var.availability_zones[1]
-
-  tags = {
-    Name = "${var.environment}-private-subnet-b"
+    Name = "${var.environment}-private-subnet-${each.key}"
   }
 }
 
 resource "aws_internet_gateway" "igw" {
+  count  = local.use_igw ? 1 : 0
   vpc_id = aws_vpc.private_network.id
 
   tags = {
@@ -59,6 +43,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 resource "aws_eip" "nat_eip" {
+  count  = local.use_nat_gateway ? 1 : 0
   domain = "vpc"
 
   tags = {
@@ -67,8 +52,10 @@ resource "aws_eip" "nat_eip" {
 }
 
 resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.public_subnet_a.id
+  count = local.use_nat_gateway ? 1 : 0
+
+  allocation_id = aws_eip.nat_eip[0].id
+  subnet_id     = values(aws_subnet.public)[0].id
 
   tags = {
     Name = "${var.environment}-nat-gateway"
@@ -76,11 +63,12 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_route_table" "public_rt" {
+  count  = local.use_igw ? 1 : 0
   vpc_id = aws_vpc.private_network.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
+    gateway_id = aws_internet_gateway.igw[0].id
   }
 
   tags = {
@@ -88,22 +76,20 @@ resource "aws_route_table" "public_rt" {
   }
 }
 
-resource "aws_route_table_association" "public_association_a" {
-  subnet_id      = aws_subnet.public_subnet_a.id
-  route_table_id = aws_route_table.public_rt.id
-}
+resource "aws_route_table_association" "public_assoc" {
+  for_each = local.use_igw ? aws_subnet.public : {}
 
-resource "aws_route_table_association" "public_association_b" {
-  subnet_id      = aws_subnet.public_subnet_b.id
-  route_table_id = aws_route_table.public_rt.id
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.public_rt[0].id
 }
 
 resource "aws_route_table" "private_rt" {
+  count  = local.use_private_rt ? 1 : 0
   vpc_id = aws_vpc.private_network.id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat.id
+    nat_gateway_id = aws_nat_gateway.nat[0].id
   }
 
   tags = {
@@ -111,12 +97,9 @@ resource "aws_route_table" "private_rt" {
   }
 }
 
-resource "aws_route_table_association" "private_association_a" {
-  subnet_id      = aws_subnet.private_subnet_a.id
-  route_table_id = aws_route_table.private_rt.id
-}
+resource "aws_route_table_association" "private_assoc" {
+  for_each = local.use_private_rt ? aws_subnet.private : {}
 
-resource "aws_route_table_association" "private_association_b" {
-  subnet_id      = aws_subnet.private_subnet_b.id
-  route_table_id = aws_route_table.private_rt.id
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.private_rt[0].id
 }

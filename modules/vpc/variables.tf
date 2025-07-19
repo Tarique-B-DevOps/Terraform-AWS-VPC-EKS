@@ -3,29 +3,26 @@ variable "vpc_cidr" {
   type        = string
 }
 
-variable "public_subnet_a_cidr" {
-  description = "CIDR block for Public Subnet A"
-  type        = string
+variable "public_subnets" {
+  description = "Map of public subnet names to their CIDR blocks and availability zones"
+  type = map(object({
+    cidr_block        = string
+    availability_zone = string
+  }))
 }
 
-variable "public_subnet_b_cidr" {
-  description = "CIDR block for Public Subnet B"
-  type        = string
+variable "private_subnets" {
+  description = "Map of private subnet names to their CIDR blocks and availability zones"
+  type = map(object({
+    cidr_block        = string
+    availability_zone = string
+  }))
 }
 
-variable "private_subnet_a_cidr" {
-  description = "CIDR block for Private Subnet A"
-  type        = string
-}
-
-variable "private_subnet_b_cidr" {
-  description = "CIDR block for Private Subnet B"
-  type        = string
-}
-
-variable "availability_zones" {
-  description = "List of availability zones"
-  type        = list(string)
+variable "provision_nat_gateway" {
+  description = "Specify whether to provision and configure the NAT gateway for private subnets"
+  type        = bool
+  default     = false
 }
 
 variable "environment" {

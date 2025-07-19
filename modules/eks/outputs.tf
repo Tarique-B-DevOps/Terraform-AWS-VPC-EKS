@@ -15,5 +15,5 @@ output "eks_cluster_endpoint" {
 
 output "eks_node_group_id" {
   description = "The ID of the EKS Node Group"
-  value       = aws_eks_node_group.eks_node_group.id
+  value       = length(aws_eks_node_group.eks_node_group) > 0 ? aws_eks_node_group.eks_node_group[0].id : ""
 }

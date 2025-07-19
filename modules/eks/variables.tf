@@ -14,13 +14,16 @@ variable "eks_node_instance_type" {
 }
 
 variable "eks_node_arch_type" {
-  description = "Architecture type: 'arm' for ARM64, 'amd' for x86_64"
+  description = "Architecture type: 'arm' for ARM64, 'amd' for x86_64. Ignored if launch type is fargate."
   type        = string
-  default     = "arm"
+  default     = ""
 
   validation {
-    condition     = var.eks_node_arch_type == "arm" || var.eks_node_arch_type == "amd"
-    error_message = "eks_node_arch_type must be either 'arm' or 'amd'."
+    condition = (
+      var.eks_launch_type == "fargate" ||
+      (var.eks_node_arch_type == "arm" || var.eks_node_arch_type == "amd")
+    )
+    error_message = "eks_node_arch_type must be 'arm' or 'amd' when using EC2 launch type."
   }
 }
 
@@ -42,4 +45,19 @@ variable "eks_node_group_max_size" {
 variable "eks_version" {
   description = "The EKS cluster version"
   type        = string
+}
+
+variable "eks_launch_type" {
+  description = "Launch type for worker nodes: 'ec2' for EC2 Node Group, 'fargate' for EKS Fargate"
+  type        = string
+  default     = "ec2"
+  validation {
+    condition     = contains(["ec2", "fargate"], lower(var.eks_launch_type))
+    error_message = "eks_launch_type must be 'ec2' or 'fargate'."
+  }
+}
+
+variable "fargate_profile_namespaces" {
+  description = "List of Kubernetes namespaces to use for Fargate profile"
+  type        = list(string)
 }
