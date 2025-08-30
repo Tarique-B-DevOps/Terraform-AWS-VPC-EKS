@@ -11,6 +11,7 @@ module "eks" {
   source                          = "./modules/eks"
   subnet_ids                      = var.eks_launch_type == "fargate" ? module.vpc.private_subnet_ids : module.vpc.public_subnet_ids
   environment                     = var.environment
+  eks_auth_mode                   = var.eks_auth_mode
   eks_node_instance_type          = var.eks_node_instance_type
   eks_node_arch_type              = var.eks_node_arch_type
   eks_node_group_desired_capacity = var.eks_node_group_desired_capacity

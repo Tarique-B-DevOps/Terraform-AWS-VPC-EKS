@@ -24,6 +24,13 @@ resource "aws_eks_cluster" "eks_cluster" {
   role_arn = aws_iam_role.eks_cluster_role.arn
   version  = var.eks_version
 
+  #TODO: Add support for adding addons using
+  # bootstrap_self_managed_addons
+
+  access_config {
+    authentication_mode = var.eks_auth_mode
+  }
+
   vpc_config {
     subnet_ids = var.subnet_ids
   }
