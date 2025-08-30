@@ -37,10 +37,11 @@ private_subnets = {
 provision_nat_gateway = false
 
 # EKS Vars Values
+eks_auth_mode                   = "API_AND_CONFIG_MAP"
 eks_launch_type                 = "ec2"
 eks_node_instance_type          = "t4g.medium"
 eks_node_arch_type              = "arm"
 eks_node_group_desired_capacity = 1
 eks_node_group_min_size         = 1
 eks_node_group_max_size         = 2
-eks_version                     = "1.31"
+eks_version                     = "1.33"

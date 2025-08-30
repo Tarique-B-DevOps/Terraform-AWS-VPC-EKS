@@ -8,6 +8,18 @@ variable "environment" {
   type        = string
 }
 
+variable "eks_auth_mode" {
+  description = "EKS authentication mode. NOTE: CONFIG_MAP is deprecated and will be removed in future versions."
+  type        = string
+  default     = "API"
+
+  validation {
+    condition     = contains(["API_AND_CONFIG_MAP", "API", "CONFIG_MAP"], var.eks_auth_mode)
+    error_message = "eks_auth_mode must be one of support types."
+  }
+
+}
+
 variable "eks_node_instance_type" {
   description = "The EC2 instance type for the EKS worker nodes"
   type        = string

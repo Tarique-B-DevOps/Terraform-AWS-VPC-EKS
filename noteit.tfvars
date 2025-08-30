@@ -15,9 +15,9 @@ private_subnet_b_cidr = "10.0.4.0/24"
 availability_zones    = ["ap-south-2a", "ap-south-2b"]
 
 # EKS Vars Values
-
+eks_auth_mode                   = "API_AND_CONFIG_MAP"
 eks_node_instance_type          = "t3.medium"
 eks_node_group_desired_capacity = 1
 eks_node_group_min_size         = 1
 eks_node_group_max_size         = 3
-eks_version                     = "1.31"
+eks_version                     = "1.33"

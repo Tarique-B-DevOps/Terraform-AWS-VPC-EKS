@@ -41,6 +41,12 @@ variable "environment" {
 }
 
 # EKS related variables
+variable "eks_auth_mode" {
+  description = "EKS authentication mode. NOTE: CONFIG_MAP is deprecated and will be removed in future versions."
+  type        = string
+
+}
+
 variable "eks_node_instance_type" {
   description = "The EC2 instance type for the EKS worker nodes"
   type        = string
