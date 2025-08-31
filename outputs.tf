@@ -33,6 +33,12 @@ output "eks_node_group_id" {
   value       = module.eks.eks_node_group_id
 }
 
+output "oidc_issuer_url" {
+  description = "The OIDC issuer URL for the EKS Cluster"
+  value       = module.eks.oidc_issuer_url
+
+}
+
 
 output "update_kubeconfig_cmd" {
   description = "Command to update the local kubeconfig file for accessing the EKS cluster"
