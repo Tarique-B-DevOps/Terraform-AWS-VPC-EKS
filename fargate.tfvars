@@ -32,7 +32,16 @@ private_subnets = {
 provision_nat_gateway = true
 
 # EKS Vars Values
-eks_auth_mode              = "API_AND_CONFIG_MAP"
-eks_launch_type            = "fargate"
-fargate_profile_namespaces = ["default", "kube-system"]
-eks_version                = "1.33"
+eks_auth_mode                 = "API_AND_CONFIG_MAP"
+eks_launch_type               = "fargate"
+fargate_profile_namespaces    = ["default", "kube-system"]
+eks_version                   = "1.33"
+eks_creadtor_admin_permission = true
+eks_control_plane_log_types = [
+  "api",
+  "audit",
+  "authenticator",
+  "controllerManager",
+  "scheduler"
+]
+eks_add_ons = ["eks-pod-identity-agent"]

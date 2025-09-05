@@ -19,5 +19,8 @@ module "eks" {
   eks_node_group_max_size         = var.eks_node_group_max_size
   eks_version                     = var.eks_version
   eks_launch_type                 = var.eks_launch_type
+  eks_creator_admin_permission    = var.eks_creadtor_admin_permission
+  eks_control_plane_log_types     = var.eks_control_plane_log_types
+  eks_add_ons                     = var.eks_add_ons
   fargate_profile_namespaces      = var.fargate_profile_namespaces
 }
