@@ -24,20 +24,34 @@ resource "aws_eks_cluster" "eks_cluster" {
   role_arn = aws_iam_role.eks_cluster_role.arn
   version  = var.eks_version
 
-  #TODO: Add support for adding addons using
-  # bootstrap_self_managed_addons
-
   access_config {
     authentication_mode = var.eks_auth_mode
+    bootstrap_cluster_creator_admin_permissions = var.eks_creator_admin_permission
   }
 
   vpc_config {
     subnet_ids = var.subnet_ids
   }
 
+  enabled_cluster_log_types = var.eks_control_plane_log_types
+
   tags = {
     Name = "${var.environment}-eks-cluster-${local.arch_type_launch_type}"
   }
+}
+
+
+resource "aws_eks_addon" "cluster_addons" {
+  for_each = toset(var.eks_add_ons)
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name = each.value
+  resolve_conflicts_on_create = "OVERWRITE"
+
+  tags = {
+    Name = "${var.environment}-eks-addon-${each.value}-${local.arch_type_launch_type}"
+  }
+
+  
 }
 
 resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {

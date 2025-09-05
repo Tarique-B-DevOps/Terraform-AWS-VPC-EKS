@@ -17,3 +17,9 @@ output "eks_node_group_id" {
   description = "The ID of the EKS Node Group"
   value       = length(aws_eks_node_group.eks_node_group) > 0 ? aws_eks_node_group.eks_node_group[0].id : ""
 }
+
+output "oidc_issuer_url" {
+  description = "The OIDC issuer URL for the EKS Cluster"
+  value       = aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
+
+}

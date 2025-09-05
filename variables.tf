@@ -83,9 +83,31 @@ variable "eks_version" {
   type        = string
 }
 
+variable "eks_creator_admin_permission" {
+  description = "Specifies whether the creator of the EKS cluster should be granted admin permissions in the cluster."
+  type        = bool
+  default     = false
+
+}
+
 variable "eks_launch_type" {
   description = "Launch type for worker nodes: 'ec2' for EC2 Node Group, 'fargate' for EKS Fargate"
   type        = string
+
+}
+
+variable "eks_control_plane_log_types" {
+  description = "List of control plane log types to enable"
+  type        = list(string)
+  default     = []
+
+}
+
+variable "eks_add_ons" {
+  description = "List of EKS add-ons to install. Valid values are: vpc-cni, kube-proxy, coredns"
+  type        = list(string)
+  default     = []
+
 }
 
 variable "fargate_profile_namespaces" {

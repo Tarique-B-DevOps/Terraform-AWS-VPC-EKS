@@ -69,6 +69,33 @@ variable "eks_launch_type" {
   }
 }
 
+variable "eks_creator_admin_permission" {
+  description = "Specifies whether the creator of the EKS cluster should be granted admin permissions in the cluster."
+  type = bool
+  default = false
+  
+}
+
+variable "eks_enable_cluster_log_types" {
+  description = "List of cluster log types to enable. Valid values are: api, audit, authenticator, controllerManager, scheduler"
+  type        = list(string)
+  default     = []
+  
+}
+
+variable "eks_control_plane_log_types" {
+  description = ""
+  type = list(string)
+  default = []
+}
+
+variable "eks_add_ons" {
+  description = "List of EKS add-ons to install. Valid values are: vpc-cni, kube-proxy, coredns"
+  type        = list(string)
+  default     = []
+  
+}
+
 variable "fargate_profile_namespaces" {
   description = "List of Kubernetes namespaces to use for Fargate profile"
   type        = list(string)

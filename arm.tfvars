@@ -45,3 +45,12 @@ eks_node_group_desired_capacity = 1
 eks_node_group_min_size         = 1
 eks_node_group_max_size         = 2
 eks_version                     = "1.33"
+eks_creator_admin_permission    = true
+eks_control_plane_log_types = [
+  "api",
+  "audit",
+  "authenticator",
+  "controllerManager",
+  "scheduler"
+]
+eks_add_ons = ["eks-pod-identity-agent"]
