@@ -83,7 +83,7 @@ variable "eks_version" {
   type        = string
 }
 
-variable "eks_creadtor_admin_permission" {
+variable "eks_creator_admin_permission" {
   description = "Specifies whether the creator of the EKS cluster should be granted admin permissions in the cluster."
   type        = bool
   default     = false
